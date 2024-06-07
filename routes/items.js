@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Item = require("../models/Item");
+const Product = require("../models/productModel");
 const authMiddleware = require("../middleware/authMiddleware");
 
 // Create a new item (Admin only)

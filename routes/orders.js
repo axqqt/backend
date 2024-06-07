@@ -1,23 +1,23 @@
 const express = require("express");
 const router = express.Router();
 const Order = require("../models/orderModel");
-const Item = require("../models/itemModel");
+const Product = require("../models/productModel");
 const authMiddleware = require("../middleware/authMiddleware");
 
 // Create a new order
 router.post("/", authMiddleware, async (req, res) => {
-    const { subscriptionId, itemIds } = req.body;
+    const { subscriptionId, productIds } = req.body;
     try {
-        // Check if all items are valid
-        const items = await Item.find({ _id: { $in: itemIds } });
-        if (items.length !== itemIds.length) {
-            return res.status(400).json({ message: "Invalid items in the order" });
+        // Check if all products are valid
+        const products = await Product.find({ _id: { $in: productIds } });
+        if (products.length !== productIds.length) {
+            return res.status(400).json({ message: "Invalid products in the order" });
         }
 
         const order = new Order({
             user: req.userId,
             subscription: subscriptionId,
-            items: itemIds,
+            items: productIds,
         });
         await order.save();
         res.status(201).json(order);
